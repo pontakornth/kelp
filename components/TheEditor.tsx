@@ -12,7 +12,10 @@ const TheEditor: React.FC = () => {
 	const open = useEditor(state => state.open)
 	return (
 		<>
-		<div onClick={open} className={tw`rounded p-2 text-gray-400 border border-gray-400 cursor-text`}>
+		<div 
+		    data-testid="editor"
+			onClick={open} 
+			className={tw`rounded p-2 text-gray-400 border border-gray-400 cursor-text`}>
 			Enter something...
 		</div>
 		<TheModalEditor />
@@ -30,9 +33,13 @@ const TheModalEditor = () => {
 	if (isOpen && typeof window === 'object') {
 		return ReactDOM.createPortal(
 			<ModalOverlay>
-				<div className={tw`bg-white p-4 rounded`}>
-					st
-				</div>	
+				<form className={tw`bg-white p-4 rounded`}>
+					<label htmlFor="title">Title</label>
+					<input type="text" id="title" placeholder="Title" />
+					<label htmlFor="content">Content</label>
+					<textarea id="content" placeholder="Content..." />
+					<button name="save">Save</button>
+				</form>	
 			</ModalOverlay>
 		, document.getElementById('modal-root')!)
 	}

@@ -1,11 +1,7 @@
 import { tw } from 'twind'
+import type Note from '../@types/note'
 
 // TODO: Move into the appropriate directory
-export type Note = {
-	id: string;
-	title: string;
-	content: string;
-}
 
 type NoteCardProps = {
 	note: Note;

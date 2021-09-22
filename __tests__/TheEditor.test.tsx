@@ -23,4 +23,20 @@ describe('TheEditor', () => {
 		expect(() => getByLabelText("Title")).toThrow()
 	})
 
+	it('close by clicking outside', async () => {
+		const { getByTestId, queryByLabelText } = render(
+			<>
+				<TheEditor />
+				<button data-testid="outside">Outside</button>
+			</>
+		)
+		await waitFor(() => fireEvent.click(getByTestId("editor")))
+		expect(queryByLabelText("Title")).not.toBeNull()
+		expect(queryByLabelText("Content")).not.toBeNull()
+		await waitFor(() => fireEvent.click(getByTestId("outside")))
+		expect(queryByLabelText("Title")).toBeNull()
+		expect(queryByLabelText("Content")).toBeNull()
+
+	})
+
 })

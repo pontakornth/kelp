@@ -10,7 +10,7 @@ type EditorStore = {
 const useEditor = create<EditorStore>((set, get) => ({
 	isOpen: false,
 	open: () => set(_ => ({isOpen: true})),
-	close:  () => set(_ => ({isOpen: true})),
+	close:  () => set(_ => ({isOpen: false})),
 	toggle: () => set(state => ({isOpen: !state.isOpen}))
 }))
 

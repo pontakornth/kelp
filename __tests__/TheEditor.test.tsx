@@ -10,6 +10,7 @@ describe('TheEditor', () => {
 		expect(queryByRole("button", {name: "Save"})).not.toBeNull()
 	})
 
+	// Saving will be in seperate test
 	it('close after saving', async () => {
 		const { getByLabelText, getByTestId, getByRole } = render(<TheEditor />)
 		await waitFor(() => fireEvent.click(getByTestId('editor')))
@@ -38,5 +39,4 @@ describe('TheEditor', () => {
 		expect(queryByLabelText("Content")).toBeNull()
 
 	})
-
 })

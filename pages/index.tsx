@@ -1,8 +1,9 @@
 import type { NextPage } from 'next'
-import type { Note } from '../components/NoteCard'
+import type Note from '../@types/note'
 import { tw } from 'twind'
 import TheEditor from '../components/TheEditor'
 import NoteCard from '../components/NoteCard'
+import NoteView from '../components/NoteView'
 
 const Home: NextPage = () => {
   const notes: Note[] = [
@@ -20,11 +21,7 @@ const Home: NextPage = () => {
   return (
     <div className={tw`m-auto w(3/4 md:1/2) py-8`}>
       <TheEditor />
-      <div className={tw`py-8 gap-5 grid grid-cols(1 md:4)`}>
-        {notes.map(note => (
-          <NoteCard note={note} key={note.id} />
-        ))}
-      </div>
+      <NoteView notes={notes} />
     </div>
   )
 }

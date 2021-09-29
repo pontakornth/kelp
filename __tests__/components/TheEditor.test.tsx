@@ -39,4 +39,12 @@ describe('TheEditor', () => {
 		expect(queryByLabelText("Content")).toBeNull()
 
 	})
+	it.skip('prevent save empty note', async () => {
+		const { queryAllByText, getByTestId, getByRole } = render(<TheEditor />)
+		await waitFor(() => fireEvent.click(getByTestId('editor')))
+		const saveButton = getByRole("button", { name: "Save"})
+		await waitFor(() => fireEvent.click(saveButton))
+		const allErrorMessages = queryAllByText(/must not be empty/)
+		expect(allErrorMessages.length).toEqual(2)
+	})
 })

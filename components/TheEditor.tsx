@@ -1,7 +1,8 @@
-import { MouseEventHandler, RefObject, useEffect, useRef } from 'react';
+import React, { MouseEventHandler, RefObject, useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom'
 import { tw, apply } from 'twind'
 import useEditor from '../stores/useEditor';
+import useNotes from '../stores/useNotes';
 import ModalOverlay from './ModalOverlay';
 
 
@@ -55,13 +56,39 @@ const inputStyle = apply`border rounded p-2`
 const TheModalEditor = () => {
 	const isOpen = useEditor(state => state.isOpen)
 	const close = useEditor(state => state.close)
+	const [{titleError, contentError}, setError] = useState({titleError: '', contentError: ''})
+	const [title, setTitle] = useState("")
+	const [content, setContent] = useState("")
+	const addNote = useNotes(state => state.addNote)
 	const clickRef = useRef<HTMLFormElement>(null);
 	useClickOutside(clickRef, () => { close() })
 
 	const handleSave = (e: React.MouseEvent) => {
 		// TODO: Add and verification saving logic
 		e.preventDefault()
-		close()
+		
+		// if (!title.length) setError(state => ({...state, titleError: "Title must not be empty."}))
+		// if (!content.length) setError(state => ({...state, contentError: "Content must not be empty."}))
+		if (!(titleError.length & contentError.length)) {
+			addNote({ title, content })
+			close()
+		}
+	}
+
+	// Note: I don't know if it reduces performance or not.
+	// It may cause re-render. I don't know.
+	const handleEdit = (field: 'title' | 'content') => {
+		return function(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+			const value = e.target.value
+			switch (field) {
+				case 'title':
+					setTitle(_ => value)
+					break;
+				case 'content':
+					setContent(_ => value)
+					break;
+			}
+		}
 	}
 
 	// Render only when using browser
@@ -72,9 +99,9 @@ const TheModalEditor = () => {
 				    ref={clickRef} 
 					className={tw`bg-white p-4 rounded mt-8 mb-auto w(3/4 md:1/2) mx-auto flex flex-col gap-y-2`}>
 					<label className={tw(labelStyle)} htmlFor="title">Title</label>
-					<input className={tw([[inputStyle], 'text-lg'])} type="text" id="title" placeholder="Title" />
+					<input onChange={handleEdit('title')} value={title} className={tw([[inputStyle], 'text-lg'])} type="text" id="title" placeholder="Title" />
 					<label className={tw(labelStyle)} htmlFor="content">Content</label>
-					<textarea className={tw(inputStyle)} id="content" placeholder="Content..." />
+					<textarea onChange={handleEdit('content')} value={content} className={tw(inputStyle)} id="content" placeholder="Content..." />
 					<button className={tw`bg-green(500 hover:green-400) text-white p-2 mt-4 rounded`} onClick={handleSave} name="save">Save</button>
 				</form>	
 			</ModalOverlay>

@@ -9,7 +9,7 @@ type NoteViewProps = {
 const NoteView: React.FC<NoteViewProps> = ({ notes }) => {
 	if (!notes.length) {
 		return (
-			<p className={tw`text-gray-500`}>There is no note.</p>
+				<p className={tw`text-center text-gray-400 text-lg mt-8 m-auto`}>There is no note.</p>
 		)
 	}
 	return (

@@ -4,12 +4,7 @@ import { render, fireEvent, waitFor } from '@testing-library/react'
 
 describe('Index', () => {
 	it('can add note using editor', async () => {
-		const { getByLabelText, getByRole, getByTestId, queryByText } = render(
-			<>
-			   <div id="modal-root"/>
-			   <Index />
-			</>
-		)
+		const { getByLabelText, getByRole, getByTestId, queryByText } = render( <Index />)
 		// Open the editor
 		await waitFor(() => fireEvent.click(getByTestId('editor')))
 		const titleInput = getByLabelText('Title')

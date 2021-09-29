@@ -6,6 +6,7 @@ type NoteViewProps = {
 	notes: Note[]
 }
 
+/** NoteView to render all notes card */
 const NoteView: React.FC<NoteViewProps> = ({ notes }) => {
 	if (!notes.length) {
 		return (

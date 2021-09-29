@@ -1,6 +1,6 @@
 import { MouseEventHandler, RefObject, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom'
-import { tw } from 'twind'
+import { tw, apply } from 'twind'
 import useEditor from '../stores/useEditor';
 import ModalOverlay from './ModalOverlay';
 
@@ -38,8 +38,19 @@ const TheEditor: React.FC = () => {
 		</>
 	)
 }
+
+
+
+// Styling for form component
+const labelStyle = apply`font-bold text-md`
+
+const inputStyle = apply`border rounded p-2`
+
+
 /**
  * The actual editor which is a modal.
+ * 
+ * TODO: Make it can actually edit note.
  */
 const TheModalEditor = () => {
 	const isOpen = useEditor(state => state.isOpen)
@@ -57,12 +68,14 @@ const TheModalEditor = () => {
 	if (isOpen && typeof window === 'object') {
 		return ReactDOM.createPortal(
 			<ModalOverlay>
-				<form ref={clickRef} className={tw`bg-white p-4 rounded`}>
-					<label htmlFor="title">Title</label>
-					<input type="text" id="title" placeholder="Title" />
-					<label htmlFor="content">Content</label>
-					<textarea id="content" placeholder="Content..." />
-					<button onClick={handleSave} name="save">Save</button>
+				<form 
+				    ref={clickRef} 
+					className={tw`bg-white p-4 rounded mt-8 mb-auto w(3/4 md:1/2) mx-auto flex flex-col gap-y-2`}>
+					<label className={tw(labelStyle)} htmlFor="title">Title</label>
+					<input className={tw([[inputStyle], 'text-lg'])} type="text" id="title" placeholder="Title" />
+					<label className={tw(labelStyle)} htmlFor="content">Content</label>
+					<textarea className={tw(inputStyle)} id="content" placeholder="Content..." />
+					<button className={tw`bg-green(500 hover:green-400) text-white p-2 mt-4 rounded`} onClick={handleSave} name="save">Save</button>
 				</form>	
 			</ModalOverlay>
 		, document.getElementById('modal-root')!)

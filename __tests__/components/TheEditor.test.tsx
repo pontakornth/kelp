@@ -1,5 +1,5 @@
 import { render, fireEvent, waitFor, screen } from '@testing-library/react'
-import TheEditor from '../components/TheEditor'
+import TheEditor from '../../components/TheEditor'
 
 describe('TheEditor', () => {
 	it('open modal editor when clicked', async () => {
